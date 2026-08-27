@@ -1,0 +1,82 @@
+# App profile: reviewed, app-level knowledge for the Cornerstone teller system.
+#
+# A happy-path discovery run cannot teach the system what this app's error
+# states look like, so they are declared here once and merged into every
+# capability recorded against the app. At scale this is also the seam for
+# per-tenant overrides: a tenant profile extends or overrides the base one.
+#
+# Detector conditions deliberately omit a frame: error states in this app can
+# surface either as a full page or inside the workarea frame, so they are
+# matched against text in any frame. The recovery click target uses frame "*"
+# for the same reason.
+
+app_id: cornerstone-teller
+entry_url: http://127.0.0.1:7710/login
+secrets: [teller_password]
+context:
+  - "Teller sign-in User ID is tclark; the password is available only as the {{secret:teller_password}} placeholder."
+
+# Business outcomes any capability on this app may legitimately return.
+outcomes:
+  - code: member_not_found
+    description: The member number matched no record. A legitimate answer the caller needs, not an error.
+  - code: validation_rejected
+    description: The application rejected an input (format or business rule); the message is returned to the caller.
+  - code: permission_denied
+    description: The signed-in role is not authorized for the requested function.
+
+detectors:
+  # -- business outcomes ----------------------------------------------------
+  - code: member_not_found
+    kind: business
+    description: Search returned no matching member records
+    condition: { kind: text_visible, value: "No matching member records were found.", within_ms: 300 }
+
+  - code: validation_rejected
+    kind: business
+    description: Member number failed input validation
+    condition: { kind: text_visible, value: "Member number must be numeric.", within_ms: 300 }
+
+  - code: validation_rejected
+    kind: business
+    description: Initial deposit is not a dollar amount
+    condition: { kind: text_visible, value: "Initial deposit must be a dollar amount.", within_ms: 300 }
+
+  - code: validation_rejected
+    kind: business
+    description: Initial deposit below the required minimum
+    condition: { kind: text_visible, value: "Minimum initial deposit is $25.00.", within_ms: 300 }
+
+  - code: permission_denied
+    kind: business
+    description: Role is not authorized for this function
+    condition: { kind: text_visible, value: "You are not authorized to access this function.", within_ms: 300 }
+
+  # -- recoverable conditions ----------------------------------------------
+  - code: session_expired
+    kind: recoverable
+    description: The teller session expired mid-flow; sign in again and resume
+    condition: { kind: text_visible, value: "Your session has expired. Please sign in again.", within_ms: 300 }
+    recovery: { kind: resume_from_step, from_step: s1, max_attempts: 1 }
+
+  - code: daily_notice
+    kind: recoverable
+    description: Known interstitial notice covering the requested screen; dismiss it
+    condition: { kind: text_visible, value: "Daily Notice", within_ms: 300 }
+    recovery:
+      kind: click
+      max_attempts: 2
+      target:
+        described_as: the Continue button on the Daily Notice interstitial
+        frame: "*"
+        locators:
+          - strategy: role
+            value: { role: button, name: Continue }
+            confidence: 0.9
+            rationale: The interstitial exposes a single Continue control
+
+  # -- fatal states ---------------------------------------------------------
+  - code: app_error
+    kind: fatal
+    description: The application errored server-side (error reference page)
+    condition: { kind: text_visible, value: "An unexpected error occurred", within_ms: 300 }

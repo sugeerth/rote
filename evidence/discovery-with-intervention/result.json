@@ -1,0 +1,108 @@
+{
+  "run_id": "discovery-20260827-085659-4b3e",
+  "kind": "discovery",
+  "capability_id": null,
+  "goal": "Look up member 12345 and read their current savings balance",
+  "status": "success",
+  "outcome_code": null,
+  "outcome_message": null,
+  "outputs": {
+    "savings_balance": "$4,982.17"
+  },
+  "failure": null,
+  "steps": [
+    {
+      "step_id": "d1",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Enter the teller User ID to begin signing in before looking up member 12345"
+    },
+    {
+      "step_id": "d2",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Enter the teller password [REDACTED] complete sign-in credentials before submitting"
+    },
+    {
+      "step_id": "d3",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "click: Submit the entered teller credentials to sign in and proceed to member lookup"
+    },
+    {
+      "step_id": "d4",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Re-enter the teller User ID since the previous sign-in attempt was rejected as invalid credentials"
+    },
+    {
+      "step_id": "d5",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Re-enter the teller password [REDACTED] the User ID was already re-typed after the invalid credentials error"
+    },
+    {
+      "step_id": "d7",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "click: Open Member Services to search for member 12345"
+    },
+    {
+      "step_id": "d8",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Enter member number 12345 to search for their record"
+    },
+    {
+      "step_id": "d9",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "click: Submit the member search for 12345 to bring up their record"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "iv1",
+      "reason": "model reported stuck",
+      "step_id": null,
+      "raised_at": "2026-08-27T08:57:41+00:00",
+      "context": {
+        "goal": "Look up member 12345 and read their current savings balance",
+        "screenshot": "runs/discovery-20260827-085659-4b3e/07-intervention-iv1.png"
+      },
+      "resolved_at": "2026-08-27T08:59:51+00:00",
+      "resolution": "resumed",
+      "human_actions": [
+        {
+          "at": "2026-08-27T08:59:51+00:00",
+          "kind": "fill",
+          "detail": "fill on [e0] textbox \"User ID:\" name=txtUser value='teller'"
+        },
+        {
+          "at": "2026-08-27T08:59:51+00:00",
+          "kind": "click",
+          "detail": "click on [e2] button \"Sign In\" value='Sign In'"
+        }
+      ]
+    }
+  ],
+  "evidence_dir": "runs/discovery-20260827-085659-4b3e",
+  "started_at": "2026-08-27T08:57:00+00:00",
+  "finished_at": "2026-08-27T09:00:14+00:00"
+}

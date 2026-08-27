@@ -1,0 +1,578 @@
+{
+  "schema_version": "1.0",
+  "id": "lookup-member-savings",
+  "name": "Look up member savings balance",
+  "version": "1.0.0",
+  "description": "Given a member number, return the member's current Regular Savings balance",
+  "app": {
+    "app_id": "cornerstone-teller",
+    "surface": "web",
+    "entry_url": "http://127.0.0.1:7710/login"
+  },
+  "contract": {
+    "params": [
+      {
+        "name": "member_id",
+        "type": "string",
+        "description": "Invocation input; recorded against the value '12345'",
+        "required": true,
+        "pattern": "\\d+",
+        "example": "12345"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "savings_balance",
+        "type": "money",
+        "description": "Read from the final screen (saw '$4,982.17')"
+      }
+    ],
+    "outcomes": [
+      {
+        "code": "member_not_found",
+        "description": "The member number matched no record. A legitimate answer the caller needs, not an error."
+      },
+      {
+        "code": "validation_rejected",
+        "description": "The application rejected an input (format or business rule); the message is returned to the caller."
+      },
+      {
+        "code": "permission_denied",
+        "description": "The signed-in role is not authorized for the requested function."
+      }
+    ]
+  },
+  "preconditions": [
+    "Secret 'teller_password' [REDACTED] from the environment"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "Open the application entry point",
+      "action": "navigate",
+      "target": null,
+      "value": null,
+      "url": "http://127.0.0.1:7710/login",
+      "wait_after": null,
+      "checkpoint": null,
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s2",
+      "intent": "Enter the teller User ID to begin signing in before looking up member 12345",
+      "action": "fill",
+      "target": {
+        "described_as": "the textbox \"User ID:\"",
+        "frame": null,
+        "locators": [
+          {
+            "strategy": "label_near",
+            "value": {
+              "text": "User ID:",
+              "control": "textbox"
+            },
+            "confidence": 0.8,
+            "rationale": "The label an operator reads next to the field; stable because retraining staff is expensive"
+          },
+          {
+            "strategy": "attr",
+            "value": {
+              "selector": "input[name='txtUser']"
+            },
+            "confidence": 0.7,
+            "rationale": "Legacy name= attributes tend to outlive redesigns (server-side code depends on them)"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > input:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": "teller",
+      "url": null,
+      "wait_after": null,
+      "checkpoint": null,
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s3",
+      "intent": "Enter the teller password [REDACTED] complete sign-in credentials before submitting",
+      "action": "fill",
+      "target": {
+        "described_as": "the textbox \"Password:[REDACTED]"",
+        "frame": null,
+        "locators": [
+          {
+            "strategy": "label_near",
+            "value": {
+              "text": "Password:"[REDACTED]
+              "control": "textbox"
+            },
+            "confidence": 0.8,
+            "rationale": "The label an operator reads next to the field; stable because retraining staff is expensive"
+          },
+          {
+            "strategy": "attr",
+            "value": {
+              "selector": "input[name='txtPass']"
+            },
+            "confidence": 0.7,
+            "rationale": "Legacy name= attributes tend to outlive redesigns (server-side code depends on them)"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > input:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": "{{secret:teller_password}}",
+      "url": null,
+      "wait_after": null,
+      "checkpoint": null,
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s4",
+      "intent": "Submit the entered teller credentials to sign in and proceed to member lookup",
+      "action": "click",
+      "target": {
+        "described_as": "the button \"Sign In\"",
+        "frame": null,
+        "locators": [
+          {
+            "strategy": "role",
+            "value": {
+              "role": "button",
+              "name": "Sign In"
+            },
+            "confidence": 0.9,
+            "rationale": "Accessible role + name; survives markup churn and maps directly to AX APIs on desktop surfaces"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(4) > td:nth-of-type(2) > input:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": null,
+      "url": null,
+      "wait_after": null,
+      "checkpoint": {
+        "description": "Screen shows 'Teller Sign-In' after: Submit the entered teller credentials to sign in and proceed to member lookup",
+        "condition": {
+          "kind": "text_visible",
+          "value": "Teller Sign-In",
+          "frame": null,
+          "within_ms": 8000
+        }
+      },
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s5",
+      "intent": "Re-enter the teller User ID since the previous sign-in attempt was rejected as invalid credentials",
+      "action": "fill",
+      "target": {
+        "described_as": "the textbox \"User ID:\"",
+        "frame": null,
+        "locators": [
+          {
+            "strategy": "label_near",
+            "value": {
+              "text": "User ID:",
+              "control": "textbox"
+            },
+            "confidence": 0.8,
+            "rationale": "The label an operator reads next to the field; stable because retraining staff is expensive"
+          },
+          {
+            "strategy": "attr",
+            "value": {
+              "selector": "input[name='txtUser']"
+            },
+            "confidence": 0.7,
+            "rationale": "Legacy name= attributes tend to outlive redesigns (server-side code depends on them)"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > input:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": "teller",
+      "url": null,
+      "wait_after": null,
+      "checkpoint": null,
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s6",
+      "intent": "Re-enter the teller password [REDACTED] the User ID was already re-typed after the invalid credentials error",
+      "action": "fill",
+      "target": {
+        "described_as": "the textbox \"Password:[REDACTED]"",
+        "frame": null,
+        "locators": [
+          {
+            "strategy": "label_near",
+            "value": {
+              "text": "Password:"[REDACTED]
+              "control": "textbox"
+            },
+            "confidence": 0.8,
+            "rationale": "The label an operator reads next to the field; stable because retraining staff is expensive"
+          },
+          {
+            "strategy": "attr",
+            "value": {
+              "selector": "input[name='txtPass']"
+            },
+            "confidence": 0.7,
+            "rationale": "Legacy name= attributes tend to outlive redesigns (server-side code depends on them)"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(4) > td:nth-of-type(2) > input:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": "{{secret:teller_password}}",
+      "url": null,
+      "wait_after": null,
+      "checkpoint": null,
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s7",
+      "intent": "Open Member Services to search for member 12345",
+      "action": "click",
+      "target": {
+        "described_as": "the link \"Member Services\"",
+        "frame": null,
+        "locators": [
+          {
+            "strategy": "role",
+            "value": {
+              "role": "link",
+              "name": "Member Services"
+            },
+            "confidence": 0.9,
+            "rationale": "Accessible role + name; survives markup churn and maps directly to AX APIs on desktop surfaces"
+          },
+          {
+            "strategy": "text",
+            "value": {
+              "text": "Member Services"
+            },
+            "confidence": 0.6,
+            "rationale": "Exact visible link text; wording is part of operator training and changes rarely"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > table:nth-of-type(2) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(1) > font:nth-of-type(1) > a:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": null,
+      "url": null,
+      "wait_after": null,
+      "checkpoint": {
+        "description": "Screen shows 'Member Search' after: Open Member Services to search for member 12345",
+        "condition": {
+          "kind": "text_visible",
+          "value": "Member Search",
+          "frame": "workarea",
+          "within_ms": 8000
+        }
+      },
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s8",
+      "intent": "Enter member number 12345 to search for their record",
+      "action": "fill",
+      "target": {
+        "described_as": "the textbox \"Member Number:\"",
+        "frame": "workarea",
+        "locators": [
+          {
+            "strategy": "label_near",
+            "value": {
+              "text": "Member Number:",
+              "control": "textbox"
+            },
+            "confidence": 0.8,
+            "rationale": "The label an operator reads next to the field; stable because retraining staff is expensive"
+          },
+          {
+            "strategy": "attr",
+            "value": {
+              "selector": "input[name='txtQ']"
+            },
+            "confidence": 0.7,
+            "rationale": "Legacy name= attributes tend to outlive redesigns (server-side code depends on them)"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > input:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": "{{param:member_id}}",
+      "url": null,
+      "wait_after": null,
+      "checkpoint": null,
+      "extract": [],
+      "risk": "safe"
+    },
+    {
+      "id": "s9",
+      "intent": "Submit the member search for 12345 to bring up their record",
+      "action": "click",
+      "target": {
+        "described_as": "the button \"Search\"",
+        "frame": "workarea",
+        "locators": [
+          {
+            "strategy": "role",
+            "value": {
+              "role": "button",
+              "name": "Search"
+            },
+            "confidence": 0.9,
+            "rationale": "Accessible role + name; survives markup churn and maps directly to AX APIs on desktop surfaces"
+          },
+          {
+            "strategy": "dom_path",
+            "value": {
+              "selector": "body:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(3) > input:nth-of-type(1)"
+            },
+            "confidence": 0.3,
+            "rationale": "Structural path recorded at discovery; brittle, kept strictly as a last resort"
+          }
+        ]
+      },
+      "value": null,
+      "url": null,
+      "wait_after": null,
+      "checkpoint": {
+        "description": "Screen shows 'Member Profile' after: Submit the member search for 12345 to bring up their record",
+        "condition": {
+          "kind": "text_visible",
+          "value": "Member Profile",
+          "frame": "workarea",
+          "within_ms": 8000
+        }
+      },
+      "extract": [
+        {
+          "output": "savings_balance",
+          "target": {
+            "described_as": "table cell: row 'Regular Savings' x column 'Current Balance'",
+            "frame": "workarea",
+            "locators": [
+              {
+                "strategy": "table_cell",
+                "value": {
+                  "row_contains": "Regular Savings",
+                  "col_header": "Current Balance"
+                },
+                "confidence": 0.85,
+                "rationale": "Semantic table address (row label x column header); survives cosmetic layout churn"
+              }
+            ]
+          },
+          "parse": "money"
+        }
+      ],
+      "risk": "safe"
+    }
+  ],
+  "detectors": [
+    {
+      "code": "member_not_found",
+      "kind": "business",
+      "description": "Search returned no matching member records",
+      "condition": {
+        "kind": "text_visible",
+        "value": "No matching member records were found.",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": null
+    },
+    {
+      "code": "validation_rejected",
+      "kind": "business",
+      "description": "Member number failed input validation",
+      "condition": {
+        "kind": "text_visible",
+        "value": "Member number must be numeric.",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": null
+    },
+    {
+      "code": "validation_rejected",
+      "kind": "business",
+      "description": "Initial deposit is not a dollar amount",
+      "condition": {
+        "kind": "text_visible",
+        "value": "Initial deposit must be a dollar amount.",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": null
+    },
+    {
+      "code": "validation_rejected",
+      "kind": "business",
+      "description": "Initial deposit below the required minimum",
+      "condition": {
+        "kind": "text_visible",
+        "value": "Minimum initial deposit is $25.00.",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": null
+    },
+    {
+      "code": "permission_denied",
+      "kind": "business",
+      "description": "Role is not authorized for this function",
+      "condition": {
+        "kind": "text_visible",
+        "value": "You are not authorized to access this function.",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": null
+    },
+    {
+      "code": "session_expired",
+      "kind": "recoverable",
+      "description": "The teller session expired mid-flow; sign in again and resume",
+      "condition": {
+        "kind": "text_visible",
+        "value": "Your session has expired. Please sign in again.",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": {
+        "kind": "resume_from_step",
+        "target": null,
+        "from_step": "s1",
+        "max_attempts": 1,
+        "backoff_ms": 1000
+      }
+    },
+    {
+      "code": "daily_notice",
+      "kind": "recoverable",
+      "description": "Known interstitial notice covering the requested screen; dismiss it",
+      "condition": {
+        "kind": "text_visible",
+        "value": "Daily Notice",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": {
+        "kind": "click",
+        "target": {
+          "described_as": "the Continue button on the Daily Notice interstitial",
+          "frame": "*",
+          "locators": [
+            {
+              "strategy": "role",
+              "value": {
+                "role": "button",
+                "name": "Continue"
+              },
+              "confidence": 0.9,
+              "rationale": "The interstitial exposes a single Continue control"
+            }
+          ]
+        },
+        "from_step": null,
+        "max_attempts": 2,
+        "backoff_ms": 1000
+      }
+    },
+    {
+      "code": "app_error",
+      "kind": "fatal",
+      "description": "The application errored server-side (error reference page)",
+      "condition": {
+        "kind": "text_visible",
+        "value": "An unexpected error occurred",
+        "frame": null,
+        "within_ms": 300
+      },
+      "recovery": null
+    }
+  ],
+  "success": {
+    "description": "Goal state reached for: Look up member 12345 and read their current savings balance",
+    "condition": {
+      "kind": "text_visible",
+      "value": "Member Profile",
+      "frame": null,
+      "within_ms": 8000
+    }
+  },
+  "safety": {
+    "origins": [
+      "http://127.0.0.1:7710"
+    ],
+    "irreversible_step_ids": [],
+    "requires_secrets": [
+      "teller_password"
+    [REDACTED]
+  },
+  "review": {
+    "status": "draft",
+    "notes": "Auto-distilled; review before approving for unattended replay"
+  },
+  "provenance": {
+    "discovery_run_id": "discovery-20260827-085659-4b3e",
+    "discovered_by": "claude-cli:sonnet",
+    "recorded_at": "2026-08-27T09:00:14+00:00",
+    "evidence": "runs/discovery-20260827-085659-4b3e"
+  }
+}

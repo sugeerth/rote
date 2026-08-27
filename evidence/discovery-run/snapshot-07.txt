@@ -1,0 +1,25 @@
+URL: http://127.0.0.1:7710/app
+TITLE: Cornerstone Federal Credit Union — Teller System
+--- visible text ((main)) ---
+Cornerstone Federal Credit Union — Teller System
+Member Services
+Reports
+Administration
+Sign Out
+--- visible text (workarea) ---
+Member Profile
+Member Number:	12345
+Name:	Margaret Ellison
+Status:	Active
+Member Since:	03/14/2011
+SSN on File:	***-**-****
+Acct No	Type	Status	Current Balance
+12345-S1	Regular Savings	Active	$4,982.17
+12345-D1	Checking	Active	$1,203.55
+Open Sub-Account
+--- interactive elements ---
+[e0] link "Member Services"
+[e1] link "Reports"
+[e2] link "Administration"
+[e3] link "Sign Out"
+[e4] link "Open Sub-Account" frame=workarea

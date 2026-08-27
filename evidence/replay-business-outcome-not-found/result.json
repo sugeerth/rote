@@ -1,0 +1,73 @@
+{
+  "run_id": "replay-20260827-195153-73a4",
+  "kind": "replay",
+  "capability_id": "lookup-member-savings",
+  "goal": null,
+  "status": "business_outcome",
+  "outcome_code": "member_not_found",
+  "outcome_message": "Search returned no matching member records",
+  "outputs": {},
+  "failure": null,
+  "steps": [
+    {
+      "step_id": "s1",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 8,
+      "note": null
+    },
+    {
+      "step_id": "s2",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": "label_near#0",
+      "duration_ms": 182,
+      "note": null
+    },
+    {
+      "step_id": "s3",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": "label_near#0",
+      "duration_ms": 200,
+      "note": null
+    },
+    {
+      "step_id": "s4",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": "role#0",
+      "duration_ms": 201,
+      "note": null
+    },
+    {
+      "step_id": "s5",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": "role#0",
+      "duration_ms": 190,
+      "note": null
+    },
+    {
+      "step_id": "s6",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": "label_near#0",
+      "duration_ms": 178,
+      "note": null
+    },
+    {
+      "step_id": "s7",
+      "status": "business_outcome",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 8395,
+      "note": "member_not_found"
+    }
+  ],
+  "interventions": [],
+  "evidence_dir": "runs/replay-20260827-195153-73a4",
+  "started_at": "2026-08-27T19:51:54+00:00",
+  "finished_at": "2026-08-27T19:52:03+00:00"
+}

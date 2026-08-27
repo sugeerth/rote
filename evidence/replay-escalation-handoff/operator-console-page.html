@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta http-equiv="refresh" content="3"><title>rote operator console</title>
+<style>
+ body { font-family: -apple-system, Segoe UI, sans-serif; margin: 2rem; max-width: 70rem; }
+ .lease { padding: .6rem 1rem; border-radius: .4rem; display: inline-block; margin-bottom: 1rem; }
+ .human { background: #fde8e8; border: 1px solid #c0392b; }
+ .automation { background: #e8f6ee; border: 1px solid #1e8449; }
+ pre { background: #f4f4f4; padding: 1rem; overflow-x: auto; max-height: 22rem; }
+ img { max-width: 100%; border: 1px solid #ccc; }
+ table { border-collapse: collapse; } td, th { border: 1px solid #ddd; padding: .3rem .6rem; text-align: left; }
+ form.inline { display: inline; }
+ .actions { margin: 1rem 0; }
+</style></head><body>
+<h1>rote operator console</h1>
+<p>run: <code>runs/replay-20260827-195224-9a30</code></p>
+<div class="lease human">controller: <b>human</b> - app_error: expected "Screen shows 'Main Menu' after: Submit the sign-in form with the entered User ID and password", observed 'The application errored server-side (error reference page): url=http://127.0.0.1:7710/app showing: System Error | An unexpected error occurred. Reference #55-1017.'</div>
+
+<h2>Intervention iv1</h2>
+<p><b>Why automation stopped:</b> app_error: expected "Screen shows 'Main Menu' after: Submit the sign-in form with the entered User ID and password", observed 'The application errored server-side (error reference page): url=http://127.0.0.1:7710/app showing: System Error | An unexpected error occurred. Reference #55-1017.'</p>
+<p><b>Capability / goal:</b> Given a member number, return the member's current Regular Savings balance &nbsp; <b>step:</b> s4</p>
+<div class="actions">
+<form class="inline" method="post" action="/command"><input type="hidden" name="kind" value="resume">
+  <button>Resume automation</button></form>
+<form class="inline" method="post" action="/command"><input type="hidden" name="kind" value="abandon">
+  <button>Abandon run</button></form>
+<form class="inline" method="post" action="/command"><input type="hidden" name="kind" value="observe">
+  <button>Refresh screen state</button></form>
+</div>
+<h3>Act on the live session</h3>
+<form method="post" action="/command">
+ <input type="hidden" name="kind" value="act">
+ action <select name="action"><option>click</option><option>fill</option><option>select</option><option>press</option><option>navigate</option></select>
+ element # <input name="element" size="4"> (blank for navigate)
+ value <input name="value" size="24">
+ <button>Send</button>
+</form>
+<h3>Current screen</h3>
+<img src="/screenshot.png" alt="live session screenshot">
+<h3>Actable elements</h3>
+<table><tr><th>#</th><th>control</th></tr></table>
+<h3>Screen text (redacted)</h3>
+<pre>URL: http://127.0.0.1:7710/app
+TITLE: System Error
+--- visible text ((main)) ---
+System Error
+An unexpected error occurred. Reference #55-1017.
+--- interactive elements ---</pre>
+
+</body></html>

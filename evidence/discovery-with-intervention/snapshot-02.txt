@@ -1,0 +1,11 @@
+URL: http://127.0.0.1:7710/login
+TITLE: Teller Sign-In
+--- visible text ((main)) ---
+Teller Sign-In
+Please enter your teller credentials.
+User ID:	
+Password:
+[REDACTED] interactive elements ---
+[e0] textbox "User ID:" name=txtUser value='teller'
+[e1] textbox "Password:" [REDACTED]
+[e2] button "Sign In" value='Sign In'

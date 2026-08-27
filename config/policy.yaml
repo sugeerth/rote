@@ -1,0 +1,43 @@
+# Guardrail policy for the rote automation system.
+# Enforced at the Surface layer - every action in BOTH discovery and replay
+# passes through this gate before it touches the UI.
+
+allowlist:
+  # Origins the agent may navigate to or act within. Anything else is blocked.
+  origins:
+    - "http://127.0.0.1:7710"
+  # Path prefixes denied even on an allowlisted origin. Deny wins.
+  denied_paths:
+    - "/admin/"
+    - "/debug/"
+
+actions:
+  # Action types the agent is permitted to perform on the surface.
+  allowed: [navigate, click, fill, select, press, read]
+
+risk:
+  # Controls whose accessible name matches this pattern are classified
+  # irreversible: they commit state the system cannot undo (postings,
+  # account openings, deletions, transfers).
+  irreversible_name_pattern: "(?i)\\b(confirm|post|delete|purge|transfer|approve)\\b"
+  # What unattended replay does when it reaches an irreversible step the
+  # caller has not explicitly authorized: escalate to a human.
+  # (Alternative: block. Never: silently proceed.)
+  unattended_irreversible: escalate
+
+secrets:
+  # Secrets are referenced by placeholder ({{secret:name}}), resolved from the
+  # environment at act-time, and never written to artifacts, logs, or evidence.
+  teller_password:
+    env: ROTE_TELLER_PASSWORD
+
+redaction:
+  # Patterns scrubbed from every log line, snapshot, and evidence file before
+  # it is persisted. Regulated financial data must not land on disk.
+  patterns:
+    - name: ssn
+      regex: "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+      replacement: "***-**-****"
+    - name: password_kv
+      regex: "(?i)(password[\"'=:\\s]+)[^\\s\"'&]+"
+      replacement: "\\1[REDACTED]"

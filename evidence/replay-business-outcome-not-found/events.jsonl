@@ -1,0 +1,12 @@
+{"ts": "2026-08-27T19:51:54.189+00:00", "event": "replay_started", "capability": "lookup-member-savings", "version": "1.0.0", "params": {"member_id": "99999"}, "review_status": "approved"}
+{"ts": "2026-08-27T19:51:54.197+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
+{"ts": "2026-08-27T19:51:54.379+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:51:54.580+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:51:54.776+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-27T19:51:54.969+00:00", "event": "acted", "step": "s5", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-27T19:51:55.149+00:00", "event": "acted", "step": "s6", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:51:55.351+00:00", "event": "acted", "step": "s7", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:03.545+00:00", "event": "detector_fired", "step": "s7", "code": "member_not_found", "kind": "business"}
+{"ts": "2026-08-27T19:52:03.590+00:00", "event": "screenshot", "label": "s7-outcome-member_not_found", "path": "01-s7-outcome-member_not_found.png"}
+{"ts": "2026-08-27T19:52:03.590+00:00", "event": "business_outcome", "step": "s7", "code": "member_not_found"}
+{"ts": "2026-08-27T19:52:03.590+00:00", "event": "replay_finished", "status": "business_outcome", "outcome": "member_not_found"}

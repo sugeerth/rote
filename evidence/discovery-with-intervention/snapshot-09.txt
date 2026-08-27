@@ -1,0 +1,18 @@
+URL: http://127.0.0.1:7710/app
+TITLE: Cornerstone Federal Credit Union — Teller System
+--- visible text ((main)) ---
+Cornerstone Federal Credit Union — Teller System
+Member Services
+Reports
+Administration
+Sign Out
+--- visible text (workarea) ---
+Member Search
+Member Number:
+--- interactive elements ---
+[e0] link "Member Services"
+[e1] link "Reports"
+[e2] link "Administration"
+[e3] link "Sign Out"
+[e4] textbox "Member Number:" name=txtQ value='12345' frame=workarea
+[e5] button "Search" value='Search' frame=workarea

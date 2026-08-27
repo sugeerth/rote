@@ -1,0 +1,67 @@
+{
+  "run_id": "discovery-20260827-195038-c446",
+  "kind": "discovery",
+  "capability_id": null,
+  "goal": "Look up member 12345 and read their current savings balance",
+  "status": "success",
+  "outcome_code": null,
+  "outcome_message": null,
+  "outputs": {
+    "savings_balance": "$4,982.17"
+  },
+  "failure": null,
+  "steps": [
+    {
+      "step_id": "d1",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Enter the teller User ID to begin sign-in"
+    },
+    {
+      "step_id": "d2",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Enter the teller password [REDACTED] complete sign-in credentials"
+    },
+    {
+      "step_id": "d3",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "click: Submit the sign-in form with the entered User ID and password"
+    [REDACTED]
+    {
+      "step_id": "d4",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "click: Navigate to Member Services to search for member 12345"
+    },
+    {
+      "step_id": "d5",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "fill: Enter member number 12345 to search for their record"
+    },
+    {
+      "step_id": "d6",
+      "status": "ok",
+      "attempts": 1,
+      "locator_used": null,
+      "duration_ms": 0,
+      "note": "click: Submit the search to look up member 12345's record"
+    }
+  ],
+  "interventions": [],
+  "evidence_dir": "runs/discovery-20260827-195038-c446",
+  "started_at": "2026-08-27T19:50:39+00:00",
+  "finished_at": "2026-08-27T19:51:06+00:00"
+}

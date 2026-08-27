@@ -1,0 +1,18 @@
+{"ts": "2026-08-27T19:52:04.176+00:00", "event": "replay_started", "capability": "lookup-member-savings", "version": "1.0.0", "params": {"member_id": "12345"}, "review_status": "approved"}
+{"ts": "2026-08-27T19:52:04.184+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
+{"ts": "2026-08-27T19:52:04.366+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:04.564+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:04.757+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:15.444+00:00", "event": "detector_fired", "step": "s4", "code": "session_expired", "kind": "recoverable"}
+{"ts": "2026-08-27T19:52:15.445+00:00", "event": "recovery_applied", "step": "s4", "code": "session_expired", "kind": "resume_from_step", "attempt": 1}
+{"ts": "2026-08-27T19:52:15.445+00:00", "event": "recovery_resume", "step": "s4", "from_step": "s1"}
+{"ts": "2026-08-27T19:52:15.454+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
+{"ts": "2026-08-27T19:52:15.625+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:15.790+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:15.969+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:16.150+00:00", "event": "acted", "step": "s5", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:16.325+00:00", "event": "acted", "step": "s6", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:16.517+00:00", "event": "acted", "step": "s7", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-27T19:52:16.545+00:00", "event": "extracted", "step": "s7", "output": "savings_balance", "value": "4982.17"}
+{"ts": "2026-08-27T19:52:16.580+00:00", "event": "screenshot", "label": "success", "path": "01-success.png"}
+{"ts": "2026-08-27T19:52:16.580+00:00", "event": "replay_finished", "status": "success", "outcome": null}
