@@ -347,16 +347,14 @@ class WebSurface:
 
     # -- action (the policy choke point) ------------------------------------
 
-    def navigate(self, url: str, actor: str = "model") -> PolicyDecision:
-        url = self._render_value(url)[0]
+    def navigate(self, url: str) -> PolicyDecision:
+        url = self._render_value(url)
         decision = self.policy.enforce("navigate", url)
         self._require_page().goto(url, wait_until="domcontentloaded")
         self._post_act_check()
         return decision
 
-    def act_element(
-        self, kind: str, element: Element, value: str | None = None, actor: str = "model"
-    ) -> PolicyDecision:
+    def act_element(self, kind: str, element: Element, value: str | None = None) -> PolicyDecision:
         """Act on an element from the *current* snapshot (discovery / operator)."""
         frame = self._frame(element.frame)
         decision = self.policy.enforce(kind, frame.url, element.name or element.label)
@@ -378,11 +376,9 @@ class WebSurface:
         if kind == "click":
             locator.click(timeout=5000)
         elif kind == "fill":
-            rendered, _safe = self._render_value(value or "")
-            locator.fill(rendered, timeout=5000)
+            locator.fill(self._render_value(value or ""), timeout=5000)
         elif kind == "select":
-            rendered, _safe = self._render_value(value or "")
-            locator.select_option(label=rendered, timeout=5000)
+            locator.select_option(label=self._render_value(value or ""), timeout=5000)
         elif kind == "press":
             locator.press(value or "Enter", timeout=5000)
         else:
@@ -481,7 +477,8 @@ class WebSurface:
     # -- reading & conditions ------------------------------------------------
 
     def read_target(self, target: TargetRef, parse: str = "text", budget_ms: int = 5000) -> str | int | float:
-        locator, _used, _frame = self.resolve_target(target, budget_ms)
+        locator, _used, frame = self.resolve_target(target, budget_ms)
+        self.policy.enforce("read", frame.url, target.described_as)
         tag = locator.evaluate("el => el.tagName.toLowerCase()")
         raw = locator.input_value() if tag in ("input", "select", "textarea") else locator.inner_text()
         raw = raw.strip()
@@ -497,7 +494,7 @@ class WebSurface:
         Condition values may carry ``{{param:...}}`` templates; they are
         rendered against the bound invocation params before evaluation.
         """
-        value = self._render_value(cond.value)[0]
+        value = self._render_value(cond.value)
         deadline = time.monotonic() + cond.within_ms / 1000
         while True:
             if self._condition_now(cond, value):
@@ -554,13 +551,13 @@ class WebSurface:
 
     # -- internals -----------------------------------------------------------
 
-    def _render_value(self, template: str) -> tuple[str, str]:
-        """Resolve '{{param:x}}' / '{{secret:y}}' templates.
+    def _render_value(self, template: str) -> str:
+        """Resolve '{{param:x}}' / '{{secret:y}}' templates at act-time.
 
-        Returns (real value, loggable value): the loggable form keeps secret
-        placeholders intact so a secret can never reach a transcript.
+        Secrets never appear in transcripts or evidence because only this
+        method resolves them - and the resolved value is registered with the
+        redactor the moment it is first read.
         """
-        real, safe = template, template
 
         def _sub(m: re.Match[str]) -> str:
             kind, name = m.group(1), m.group(2)
@@ -570,12 +567,7 @@ class WebSurface:
                 return self._params[name]
             return self.policy.resolve_secret(name)
 
-        real = TEMPLATE_RE.sub(_sub, real)
-        safe = TEMPLATE_RE.sub(
-            lambda m: self._params.get(m.group(2), m.group(0)) if m.group(1) == "param" else m.group(0),
-            safe,
-        )
-        return real, safe
+        return TEMPLATE_RE.sub(_sub, template)
 
     def _frame_name(self, frame: Frame) -> str:
         return frame.name if frame.name else MAIN_FRAME

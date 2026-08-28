@@ -1,1 +1,1 @@
-{"kind": "act", "action": "click", "element": 2}
+{"kind": "act", "action": "fill", "element": 1, "value": "{{secret:teller_password}}", "intervention": "iv1"}

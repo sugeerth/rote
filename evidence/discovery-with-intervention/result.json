@@ -1,5 +1,5 @@
 {
-  "run_id": "discovery-20260827-085659-4b3e",
+  "run_id": "discovery-20260828-095924-5f9a",
   "kind": "discovery",
   "capability_id": null,
   "goal": "Look up member 12345 and read their current savings balance",
@@ -17,7 +17,7 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "fill: Enter the teller User ID to begin signing in before looking up member 12345"
+      "note": "fill: Enter the teller user ID to begin signing in to the back-office app"
     },
     {
       "step_id": "d2",
@@ -25,7 +25,7 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "fill: Enter the teller password [REDACTED] complete sign-in credentials before submitting"
+      "note": "fill: Enter the teller password to complete sign-in credentials"
     },
     {
       "step_id": "d3",
@@ -33,7 +33,7 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "click: Submit the entered teller credentials to sign in and proceed to member lookup"
+      "note": "click: Submit the login form with the credentials entered to access the back-office application"
     },
     {
       "step_id": "d4",
@@ -41,7 +41,7 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "fill: Re-enter the teller User ID since the previous sign-in attempt was rejected as invalid credentials"
+      "note": "fill: Retry entering the teller user ID since the previous attempt failed and the form was reset"
     },
     {
       "step_id": "d5",
@@ -49,7 +49,7 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "fill: Re-enter the teller password [REDACTED] the User ID was already re-typed after the invalid credentials error"
+      "note": "fill: Re-enter the teller password since the form was reset after the failed login attempt"
     },
     {
       "step_id": "d7",
@@ -57,7 +57,7 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "click: Open Member Services to search for member 12345"
+      "note": "click: Navigate to Member Services to look up member 12345"
     },
     {
       "step_id": "d8",
@@ -65,7 +65,7 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "fill: Enter member number 12345 to search for their record"
+      "note": "fill: Enter the member number to search for member 12345"
     },
     {
       "step_id": "d9",
@@ -73,36 +73,41 @@
       "attempts": 1,
       "locator_used": null,
       "duration_ms": 0,
-      "note": "click: Submit the member search for 12345 to bring up their record"
+      "note": "click: Submit the search for member 12345 to view their account details"
     }
   ],
   "interventions": [
     {
       "id": "iv1",
-      "reason": "model reported stuck",
+      "reason": "Login fails with 'Invalid credentials' even after re-entering User ID 'teller' and the provided {{secret:teller_password}} a second time with identical results. I was not given a confirmed username — 'teller' was a guess — and retrying the same credentials a third time risks an account lockout without new information. Need a human to confirm the correct teller User ID (and verify the password secret is correct) before continuing.",
       "step_id": null,
-      "raised_at": "2026-08-27T08:57:41+00:00",
+      "raised_at": "2026-08-28T10:00:41+00:00",
       "context": {
         "goal": "Look up member 12345 and read their current savings balance",
-        "screenshot": "runs/discovery-20260827-085659-4b3e/07-intervention-iv1.png"
+        "screenshot": "runs/discovery-20260828-095924-5f9a/07-intervention-iv1.png"
       },
-      "resolved_at": "2026-08-27T08:59:51+00:00",
+      "resolved_at": "2026-08-28T10:00:58+00:00",
       "resolution": "resumed",
       "human_actions": [
         {
-          "at": "2026-08-27T08:59:51+00:00",
+          "at": "2026-08-28T10:00:55+00:00",
           "kind": "fill",
-          "detail": "fill on [e0] textbox \"User ID:\" name=txtUser value='teller'"
+          "detail": "fill 'tclark' on [e0] textbox \"User ID:\" name=txtUser value='teller'"
         },
         {
-          "at": "2026-08-27T08:59:51+00:00",
+          "at": "2026-08-28T10:00:56+00:00",
+          "kind": "fill",
+          "detail": "fill '{{secret:teller_password}}' on [e1] textbox \"Password:\" name=txtPass"
+        },
+        {
+          "at": "2026-08-28T10:00:57+00:00",
           "kind": "click",
           "detail": "click on [e2] button \"Sign In\" value='Sign In'"
         }
       ]
     }
   ],
-  "evidence_dir": "runs/discovery-20260827-085659-4b3e",
-  "started_at": "2026-08-27T08:57:00+00:00",
-  "finished_at": "2026-08-27T09:00:14+00:00"
+  "evidence_dir": "runs/discovery-20260828-095924-5f9a",
+  "started_at": "2026-08-28T09:59:25+00:00",
+  "finished_at": "2026-08-28T10:01:14+00:00"
 }

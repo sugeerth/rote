@@ -5,7 +5,7 @@ Teller Sign-In
 Please enter your teller credentials.
 User ID:	
 Password:
-[REDACTED] interactive elements ---
+--- interactive elements ---
 [e0] textbox "User ID:" name=txtUser value='tclark'
-[e1] textbox "Password:" [REDACTED]
+[e1] textbox "Password:" name=txtPass
 [e2] button "Sign In" value='Sign In'

@@ -39,5 +39,7 @@ redaction:
       regex: "\\b\\d{3}-\\d{2}-\\d{4}\\b"
       replacement: "***-**-****"
     - name: password_kv
-      regex: "(?i)(password[\"'=:\\s]+)[^\\s\"'&]+"
+      # Bounded so a match can never cross a quote or newline (which once
+      # corrupted serialized JSON evidence): an explicit : or = is required.
+      regex: "(?i)(password[\"']?[ \\t]*[:=][ \\t]*[\"']?)[^\\s\"'&]+"
       replacement: "\\1[REDACTED]"

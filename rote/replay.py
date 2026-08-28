@@ -65,6 +65,12 @@ def replay(
     def finish(status: str, *, failure=None, outcome: Detector | None = None) -> RunResult:
         log.event("replay_finished", status=status,
                   outcome=outcome.code if outcome else None)
+        if status != "success":
+            reached = {r.step_id for r in reports}
+            reports.extend(
+                StepReport(step_id=s.id, status="not_reached", attempts=0)
+                for s in capability.steps if s.id not in reached
+            )
         return RunResult(
             run_id=log.run_id,
             kind="replay",
@@ -167,6 +173,16 @@ def replay(
                         kind="target_not_found", step_id=step.id,
                         expected=f"extraction target for output '{ex.output}'", observed=str(exc),
                         evidence={"screenshot": log.screenshot(surface, f"{step.id}-extract-missing")},
+                    ))
+                except Exception as exc:
+                    # A resolved target whose text is not parseable as the
+                    # declared output type is still a typed failure the
+                    # caller must receive - never a traceback.
+                    raise _Hard(FailureDetail(
+                        kind="extraction_failed", step_id=step.id,
+                        expected=f"output '{ex.output}' readable as {ex.parse}",
+                        observed=f"{type(exc).__name__}: {exc}",
+                        evidence={"screenshot": log.screenshot(surface, f"{step.id}-extract-failed")},
                     ))
             reports.append(StepReport(step_id=step.id, status="ok", attempts=attempts,
                                       locator_used=locator_used,
@@ -285,7 +301,7 @@ def _execute(
     """
     try:
         if step.action == "navigate":
-            surface.navigate(step.url or "", actor="replay")
+            surface.navigate(step.url or "")
             log.event("navigated", step=step.id, url=step.url)
             return None
         if step.action == "read":

@@ -65,6 +65,12 @@ class InterventionHub:
 
     def intervene(self, reason: str, step_id: str | None, goal: str | None = None) -> Resolution:
         iid = f"iv{len(self.interventions) + 1}"
+        for stale in sorted(self.commands.glob("*.json")):
+            # Commands left over from before this intervention (a late or
+            # double-clicked Resume) must not count toward it - least of all
+            # as approval of an irreversible step.
+            stale.rename(stale.with_suffix(".stale"))
+            self.log.event("stale_command_discarded", command_file=stale.name)
         shot = self.log.screenshot(self.surface, f"intervention-{iid}")
         intervention = Intervention(
             id=iid,
@@ -87,6 +93,10 @@ class InterventionHub:
         actions: list[HumanAction] = []
         while time.monotonic() < deadline:
             for command in self._pending_commands():
+                stamped = command.get("intervention")
+                if stamped is not None and stamped != iid:
+                    self.log.event("stale_command_ignored", stamped=stamped, current=iid)
+                    continue
                 outcome = self._apply(command, actions)
                 if outcome is not None:
                     intervention.resolved_at = _now()
@@ -121,12 +131,12 @@ class InterventionHub:
                 redact = self.surface.policy.redact
                 value = str(command.get("value") or "")
                 if command["action"] == "navigate":
-                    self.surface.navigate(value, actor="human")
+                    self.surface.navigate(value)
                     detail = f"navigate to {value}"
                 else:
                     snap = self.surface.snapshot()
                     element = snap.element(int(command["element"]))
-                    self.surface.act_element(command["action"], element, command.get("value"), actor="human")
+                    self.surface.act_element(command["action"], element, command.get("value"))
                     # Record what the human actually did - the typed value is
                     # part of the evidence, redacted like everything else.
                     typed = f" {redact(value)!r}" if value else ""
@@ -184,8 +194,14 @@ class InterventionHub:
         (self.root / name).write_text(json.dumps(data, indent=2) + "\n")
 
 
-def send_command(run_dir: str | Path, command: dict) -> Path:
-    """Console-side helper: enqueue one operator command for the run process."""
+def send_command(run_dir: str | Path, command: dict, intervention: str | None = None) -> Path:
+    """Console-side helper: enqueue one operator command for the run process.
+
+    ``intervention`` binds the command to the intervention the operator was
+    looking at; the hub ignores commands stamped for a different one.
+    """
+    if intervention is not None:
+        command = {**command, "intervention": intervention}
     commands = Path(run_dir) / "handoff" / "commands"
     commands.mkdir(parents=True, exist_ok=True)
     seq = len(list(commands.glob("*"))) + 1

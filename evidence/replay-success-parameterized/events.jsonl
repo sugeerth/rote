@@ -1,11 +1,11 @@
-{"ts": "2026-08-27T19:51:52.517+00:00", "event": "replay_started", "capability": "lookup-member-savings", "version": "1.0.0", "params": {"member_id": "12346"}, "review_status": "approved"}
-{"ts": "2026-08-27T19:51:52.526+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
-{"ts": "2026-08-27T19:51:52.707+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
-{"ts": "2026-08-27T19:51:52.904+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
-{"ts": "2026-08-27T19:51:53.098+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
-{"ts": "2026-08-27T19:51:53.288+00:00", "event": "acted", "step": "s5", "action": "click", "locator_used": "role#0", "risk": "safe"}
-{"ts": "2026-08-27T19:51:53.480+00:00", "event": "acted", "step": "s6", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
-{"ts": "2026-08-27T19:51:53.679+00:00", "event": "acted", "step": "s7", "action": "click", "locator_used": "role#0", "risk": "safe"}
-{"ts": "2026-08-27T19:51:53.715+00:00", "event": "extracted", "step": "s7", "output": "savings_balance", "value": "310.09"}
-{"ts": "2026-08-27T19:51:53.755+00:00", "event": "screenshot", "label": "success", "path": "01-success.png"}
-{"ts": "2026-08-27T19:51:53.755+00:00", "event": "replay_finished", "status": "success", "outcome": null}
+{"ts": "2026-08-28T10:01:12.511+00:00", "event": "replay_started", "capability": "lookup-member-savings", "version": "1.0.0", "params": {"member_id": "12346"}, "review_status": "draft"}
+{"ts": "2026-08-28T10:01:12.522+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
+{"ts": "2026-08-28T10:01:12.711+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:12.907+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:13.098+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:13.297+00:00", "event": "acted", "step": "s5", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:13.482+00:00", "event": "acted", "step": "s6", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:13.671+00:00", "event": "acted", "step": "s7", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:13.696+00:00", "event": "extracted", "step": "s7", "output": "savings_balance", "value": "310.09"}
+{"ts": "2026-08-28T10:01:13.738+00:00", "event": "screenshot", "label": "success", "path": "01-success.png"}
+{"ts": "2026-08-28T10:01:13.738+00:00", "event": "replay_finished", "status": "success", "outcome": null}

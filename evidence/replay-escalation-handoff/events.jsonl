@@ -1,20 +1,20 @@
-{"ts": "2026-08-27T19:52:24.495+00:00", "event": "replay_started", "capability": "lookup-member-savings", "version": "1.0.0", "params": {"member_id": "12345"}, "review_status": "approved"}
-{"ts": "2026-08-27T19:52:24.504+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
-{"ts": "2026-08-27T19:52:24.686+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
-{"ts": "2026-08-27T19:52:24.881+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
-{"ts": "2026-08-27T19:52:25.075+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
-{"ts": "2026-08-27T19:52:35.352+00:00", "event": "detector_fired", "step": "s4", "code": "app_error", "kind": "fatal"}
-{"ts": "2026-08-27T19:52:35.403+00:00", "event": "screenshot", "label": "s4-app_error", "path": "01-s4-app_error.png"}
-{"ts": "2026-08-27T19:52:35.403+00:00", "event": "hard_failure", "step": "s4", "kind": "app_error", "expected": "Screen shows 'Main Menu' after: Submit the sign-in form with the entered User ID and password", "observed": "The application errored server-side (error reference page): url=http://127.0.0.1:7710/app showing: System Error | An unexpected error occurred. Reference #55-1017."}
-{"ts": "2026-08-27T19:52:35.423+00:00", "event": "screenshot", "label": "intervention-iv1", "path": "02-intervention-iv1.png"}
-{"ts": "2026-08-27T19:52:35.447+00:00", "event": "escalation_raised", "intervention": "iv1", "reason": "app_error: expected \"Screen shows 'Main Menu' after: Submit the sign-in form with the entered User ID and password\"[REDACTED] observed 'The application errored server-side (error reference page): url=http://127.0.0.1:7710/app showing: System Error | An unexpected error occurred. Reference #55-1017.'", "step": "s4", "console_hint": "python3 -m rote console --run runs/replay-20260827-195224-9a30"}
-{"ts": "2026-08-27T19:53:10.241+00:00", "event": "human_action", "action": "navigate", "detail": "navigate to http://127.0.0.1:7710/app"}
-{"ts": "2026-08-27T19:53:14.370+00:00", "event": "escalation_resolved", "intervention": "iv1", "outcome": "resumed", "human_actions": 1}
-{"ts": "2026-08-27T19:53:14.370+00:00", "event": "resumed_after_intervention", "step": "s4"}
-{"ts": "2026-08-27T19:53:14.371+00:00", "event": "step_completed_by_human", "step": "s4"}
-{"ts": "2026-08-27T19:53:14.548+00:00", "event": "acted", "step": "s5", "action": "click", "locator_used": "role#0", "risk": "safe"}
-{"ts": "2026-08-27T19:53:14.729+00:00", "event": "acted", "step": "s6", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
-{"ts": "2026-08-27T19:53:14.920+00:00", "event": "acted", "step": "s7", "action": "click", "locator_used": "role#0", "risk": "safe"}
-{"ts": "2026-08-27T19:53:14.944+00:00", "event": "extracted", "step": "s7", "output": "savings_balance", "value": "4982.17"}
-{"ts": "2026-08-27T19:53:14.974+00:00", "event": "screenshot", "label": "success", "path": "03-success.png"}
-{"ts": "2026-08-27T19:53:14.974+00:00", "event": "replay_finished", "status": "success", "outcome": null}
+{"ts": "2026-08-28T10:02:28.900+00:00", "event": "replay_started", "capability": "lookup-member-savings", "version": "1.0.0", "params": {"member_id": "12345"}, "review_status": "draft"}
+{"ts": "2026-08-28T10:02:28.909+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
+{"ts": "2026-08-28T10:02:29.093+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:02:29.296+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:02:29.489+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-28T10:02:39.691+00:00", "event": "detector_fired", "step": "s4", "code": "app_error", "kind": "fatal"}
+{"ts": "2026-08-28T10:02:39.744+00:00", "event": "screenshot", "label": "s4-app_error", "path": "01-s4-app_error.png"}
+{"ts": "2026-08-28T10:02:39.744+00:00", "event": "hard_failure", "step": "s4", "kind": "app_error", "expected": "Screen shows 'Main Menu' after: Submit the sign-in form with the entered credentials", "observed": "The application errored server-side (error reference page): url=http://127.0.0.1:7710/app showing: System Error | An unexpected error occurred. Reference #55-1017."}
+{"ts": "2026-08-28T10:02:39.762+00:00", "event": "screenshot", "label": "intervention-iv1", "path": "02-intervention-iv1.png"}
+{"ts": "2026-08-28T10:02:39.787+00:00", "event": "escalation_raised", "intervention": "iv1", "reason": "app_error: expected \"Screen shows 'Main Menu' after: Submit the sign-in form with the entered credentials\", observed 'The application errored server-side (error reference page): url=http://127.0.0.1:7710/app showing: System Error | An unexpected error occurred. Reference #55-1017.'", "step": "s4", "console_hint": "python3 -m rote console --run runs/replay-20260828-100228-5aed"}
+{"ts": "2026-08-28T10:04:15.259+00:00", "event": "human_action", "action": "navigate", "detail": "navigate to http://127.0.0.1:7710/app"}
+{"ts": "2026-08-28T10:04:18.356+00:00", "event": "escalation_resolved", "intervention": "iv1", "outcome": "resumed", "human_actions": 1}
+{"ts": "2026-08-28T10:04:18.356+00:00", "event": "resumed_after_intervention", "step": "s4"}
+{"ts": "2026-08-28T10:04:18.362+00:00", "event": "step_completed_by_human", "step": "s4"}
+{"ts": "2026-08-28T10:04:18.558+00:00", "event": "acted", "step": "s5", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-28T10:04:18.746+00:00", "event": "acted", "step": "s6", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:04:18.943+00:00", "event": "acted", "step": "s7", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-28T10:04:18.975+00:00", "event": "extracted", "step": "s7", "output": "savings_balance", "value": "4982.17"}
+{"ts": "2026-08-28T10:04:19.012+00:00", "event": "screenshot", "label": "success", "path": "03-success.png"}
+{"ts": "2026-08-28T10:04:19.012+00:00", "event": "replay_finished", "status": "success", "outcome": null}

@@ -33,7 +33,6 @@ class Decision:
     provider: str
     # Assistant content blocks to append to the transcript (API providers).
     raw_content: list = field(default_factory=list)
-    text: str | None = None  # any prose the model emitted alongside the call
 
 
 class LLM(Protocol):
@@ -61,7 +60,6 @@ class AnthropicLLM:
             tool_choice={"type": "any"},
         )
         raw = [block.model_dump() for block in response.content]
-        text = " ".join(b["text"] for b in raw if b.get("type") == "text") or None
         for block in raw:
             if block["type"] == "tool_use":
                 return Decision(
@@ -70,7 +68,6 @@ class AnthropicLLM:
                     tool_use_id=block["id"],
                     provider=self.name,
                     raw_content=raw,
-                    text=text,
                 )
         raise RuntimeError("model returned no tool call despite tool_choice=any")
 
@@ -102,7 +99,11 @@ class ClaudeCLILLM:
         last_error: Exception | None = None
         for attempt in range(2):  # nothing enforces tool choice over this transport
             out = subprocess.run(
-                ["claude", "-p", prompt, "--output-format", "json", "--model", self.model],
+                # The prompt (screen content included) goes via stdin: argv is
+                # visible to other local processes, which would be a side
+                # channel around the redaction layer.
+                ["claude", "-p", "--output-format", "json", "--model", self.model],
+                input=prompt,
                 capture_output=True,
                 text=True,
                 timeout=240,

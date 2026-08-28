@@ -135,6 +135,7 @@ def test_business_outcome_terminates_run(tmp_path):
         ("s1", "ok"),
         ("s2", "ok"),
         ("s3", "business_outcome"),
+        ("s4", "not_reached"),
     ]
     # the run stopped: s4 was never acted on
     assert surface.acted_on("the Detail link") == []
@@ -371,3 +372,38 @@ def test_target_not_found_with_no_detector_claiming(tmp_path):
     assert "all locators failed" in result.failure.expected
     # the act never executed
     assert surface.acted_on("the Search button") == []
+
+
+# ---------------------------------------------------------------------------
+# regression: extraction failures stay inside the result contract
+# ---------------------------------------------------------------------------
+
+
+def test_unparseable_extraction_is_a_typed_failure(tmp_path):
+    """A resolved extraction target whose text cannot parse as the declared
+    output type must land in the contract as extraction_failed - never as an
+    uncaught traceback with no result.json."""
+    cap = make_capability()
+    surface = FakeSurface(
+        fakes.make_policy(),
+        reactions={"the Search button": react(add=["Member Detail"])},
+        reads={"the balance cell": ValueError("could not convert string to float: 'N/A'")},
+    )
+    result, log = run(cap, surface, tmp_path)
+
+    assert result.status == "hard_failure"
+    assert result.failure.kind == "extraction_failed"
+    assert result.failure.step_id == "s3"
+    assert "ValueError" in result.failure.observed
+    assert result.failure.evidence.get("screenshot")
+
+
+def test_steps_after_a_failure_are_reported_not_reached(tmp_path):
+    steps = fakes.search_steps() + [click_step("s4", "the Detail link", name="Detail", checkpoint_value=None)]
+    cap = make_capability(steps=steps)
+    surface = FakeSurface(fakes.make_policy())  # s3's checkpoint never appears
+
+    result, _log = run(cap, surface, tmp_path)
+
+    assert result.status == "hard_failure"
+    assert ("s4", "not_reached") in [(r.step_id, r.status) for r in result.steps]

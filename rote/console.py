@@ -122,7 +122,11 @@ def create_app(run_dir: str) -> Flask:
         cmd: dict = {"kind": form["kind"]}
         if cmd["kind"] == "act":
             cmd.update(action=form["action"], element=form["element"], value=form.get("value") or None)
-        send_command(run_dir, cmd)
+        try:
+            iid = json.loads((root / "context.json").read_text()).get("intervention")
+        except (OSError, json.JSONDecodeError):
+            iid = None
+        send_command(run_dir, cmd, intervention=iid)
         return redirect("/")
 
     return app

@@ -43,7 +43,7 @@
     ]
   },
   "preconditions": [
-    "Secret 'teller_password' [REDACTED] from the environment"
+    "Secret 'teller_password' resolvable from the environment"
   ],
   "steps": [
     {
@@ -102,16 +102,16 @@
     },
     {
       "id": "s3",
-      "intent": "Enter the teller password [REDACTED] complete sign-in credentials",
+      "intent": "Enter the teller password to complete sign-in credentials",
       "action": "fill",
       "target": {
-        "described_as": "the textbox \"Password:[REDACTED]"",
+        "described_as": "the textbox \"Password:\"",
         "frame": null,
         "locators": [
           {
             "strategy": "label_near",
             "value": {
-              "text": "Password:"[REDACTED]
+              "text": "Password:",
               "control": "textbox"
             },
             "confidence": 0.8,
@@ -144,7 +144,7 @@
     },
     {
       "id": "s4",
-      "intent": "Submit the sign-in form with the entered User ID and password"[REDACTED]
+      "intent": "Submit the sign-in form with the entered credentials",
       "action": "click",
       "target": {
         "described_as": "the button \"Sign In\"",
@@ -173,7 +173,7 @@
       "url": null,
       "wait_after": null,
       "checkpoint": {
-        "description": "Screen shows 'Main Menu' after: Submit the sign-in form with the entered User ID and password"[REDACTED]
+        "description": "Screen shows 'Main Menu' after: Submit the sign-in form with the entered credentials",
         "condition": {
           "kind": "text_visible",
           "value": "Main Menu",
@@ -278,7 +278,7 @@
     },
     {
       "id": "s7",
-      "intent": "Submit the search to look up member 12345's record",
+      "intent": "Submit the search to find member 12345's record",
       "action": "click",
       "target": {
         "described_as": "the button \"Search\"",
@@ -307,7 +307,7 @@
       "url": null,
       "wait_after": null,
       "checkpoint": {
-        "description": "Screen shows 'Member Profile' after: Submit the search to look up member 12345's record",
+        "description": "Screen shows 'Member Profile' after: Submit the search to find member 12345's record",
         "condition": {
           "kind": "text_visible",
           "value": "Member Profile",
@@ -479,16 +479,16 @@
     "irreversible_step_ids": [],
     "requires_secrets": [
       "teller_password"
-    [REDACTED]
+    ]
   },
   "review": {
     "status": "draft",
     "notes": "Auto-distilled; review before approving for unattended replay"
   },
   "provenance": {
-    "discovery_run_id": "discovery-20260827-195038-c446",
+    "discovery_run_id": "discovery-20260828-095824-12a2",
     "discovered_by": "claude-cli:sonnet",
-    "recorded_at": "2026-08-27T19:51:06+00:00",
-    "evidence": "runs/discovery-20260827-195038-c446"
+    "recorded_at": "2026-08-28T09:58:52+00:00",
+    "evidence": "runs/discovery-20260828-095824-12a2"
   }
 }

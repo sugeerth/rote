@@ -1,0 +1,10 @@
+{"ts": "2026-08-28T10:01:15.118+00:00", "event": "replay_started", "capability": "lookup-member-savings-iv", "version": "1.0.0", "params": {"member_id": "12345"}, "review_status": "draft"}
+{"ts": "2026-08-28T10:01:15.127+00:00", "event": "navigated", "step": "s1", "url": "http://127.0.0.1:7710/login"}
+{"ts": "2026-08-28T10:01:15.310+00:00", "event": "acted", "step": "s2", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:15.505+00:00", "event": "acted", "step": "s3", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:15.705+00:00", "event": "acted", "step": "s4", "action": "click", "locator_used": "role#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:15.890+00:00", "event": "acted", "step": "s5", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:16.068+00:00", "event": "acted", "step": "s6", "action": "fill", "locator_used": "label_near#0", "risk": "safe"}
+{"ts": "2026-08-28T10:01:24.617+00:00", "event": "screenshot", "label": "s7-unexpected", "path": "01-s7-unexpected.png"}
+{"ts": "2026-08-28T10:01:24.617+00:00", "event": "hard_failure", "step": "s7", "kind": "target_not_found", "expected": "target resolvable: could not resolve 'the link \"Member Services\"' (frame=(main)); tried ['dom_path#2', 'role#0', 'text#1']", "observed": "url=http://127.0.0.1:7710/login showing: Teller Sign-In | Please enter your teller credentials. | Invalid credentials."}
+{"ts": "2026-08-28T10:01:24.617+00:00", "event": "replay_finished", "status": "hard_failure", "outcome": null}

@@ -1,5 +1,5 @@
 {
-  "run_id": "replay-20260827-195153-73a4",
+  "run_id": "replay-20260828-100113-db71",
   "kind": "replay",
   "capability_id": "lookup-member-savings",
   "goal": null,
@@ -30,7 +30,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "label_near#0",
-      "duration_ms": 200,
+      "duration_ms": 184,
       "note": null
     },
     {
@@ -38,7 +38,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "role#0",
-      "duration_ms": 201,
+      "duration_ms": 196,
       "note": null
     },
     {
@@ -46,7 +46,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "role#0",
-      "duration_ms": 190,
+      "duration_ms": 183,
       "note": null
     },
     {
@@ -54,7 +54,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "label_near#0",
-      "duration_ms": 178,
+      "duration_ms": 166,
       "note": null
     },
     {
@@ -62,12 +62,12 @@
       "status": "business_outcome",
       "attempts": 1,
       "locator_used": null,
-      "duration_ms": 8395,
+      "duration_ms": 8266,
       "note": "member_not_found"
     }
   ],
   "interventions": [],
-  "evidence_dir": "runs/replay-20260827-195153-73a4",
-  "started_at": "2026-08-27T19:51:54+00:00",
-  "finished_at": "2026-08-27T19:52:03+00:00"
+  "evidence_dir": "runs/replay-20260828-100113-db71",
+  "started_at": "2026-08-28T10:01:14+00:00",
+  "finished_at": "2026-08-28T10:01:23+00:00"
 }

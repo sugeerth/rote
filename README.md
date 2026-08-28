@@ -62,7 +62,7 @@ export ANTHROPIC_API_KEY=sk-ant-...   # preferred
 ```
 
 **Running without live services:** everything is local — the target app is
-part of the repo — and the full test suite (106 tests, including a complete
+part of the repo — and the full test suite (115 tests, including a complete
 end-to-end pipeline run) uses a deterministic scripted provider, so **tests
 need no model access at all**: `python3 -m pytest`. Only a fresh discovery
 run needs a model, by design: the brief requires the discovery run to be real.
@@ -123,6 +123,6 @@ is in each run's `result.json`, or on stdout with `--json`.
 ## Tests
 
 ```bash
-python3 -m pytest        # 106 tests: schema, policy, replay taxonomy, distiller,
+python3 -m pytest        # 115 tests: schema, policy, replay taxonomy, distiller,
                          # target app, and a full end-to-end pipeline (no model needed)
 ```

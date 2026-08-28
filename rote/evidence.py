@@ -70,8 +70,12 @@ class RunLog:
         return str(path)
 
     def save_json(self, name: str, data: object) -> str:
+        """Redact per string value, then serialize - never regex the
+        serialized JSON, where a match can consume structural tokens and
+        corrupt the file."""
         if hasattr(data, "model_dump_json"):
-            text = data.model_dump_json(indent=2)
-        else:
-            text = json.dumps(data, indent=2, ensure_ascii=False)
-        return self.save_text(name, text + "\n")
+            data = json.loads(data.model_dump_json())
+        text = json.dumps(self._clean(data), indent=2, ensure_ascii=False)
+        path = self.dir / name
+        path.write_text(text + "\n")
+        return str(path)

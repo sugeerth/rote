@@ -1,5 +1,5 @@
 {
-  "run_id": "verify-20260827-195106-5021",
+  "run_id": "verify-20260828-095852-5265",
   "kind": "replay",
   "capability_id": "lookup-member-savings",
   "goal": null,
@@ -16,7 +16,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": null,
-      "duration_ms": 7,
+      "duration_ms": 8,
       "note": null
     },
     {
@@ -24,7 +24,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "label_near#0",
-      "duration_ms": 182,
+      "duration_ms": 181,
       "note": null
     },
     {
@@ -32,7 +32,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "label_near#0",
-      "duration_ms": 191,
+      "duration_ms": 197,
       "note": null
     },
     {
@@ -40,7 +40,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "role#0",
-      "duration_ms": 205,
+      "duration_ms": 212,
       "note": null
     },
     {
@@ -48,7 +48,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "role#0",
-      "duration_ms": 197,
+      "duration_ms": 207,
       "note": null
     },
     {
@@ -56,7 +56,7 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "label_near#0",
-      "duration_ms": 183,
+      "duration_ms": 180,
       "note": null
     },
     {
@@ -64,12 +64,12 @@
       "status": "ok",
       "attempts": 1,
       "locator_used": "role#0",
-      "duration_ms": 229,
+      "duration_ms": 209,
       "note": null
     }
   ],
   "interventions": [],
-  "evidence_dir": "runs/verify-20260827-195106-5021",
-  "started_at": "2026-08-27T19:51:06+00:00",
-  "finished_at": "2026-08-27T19:51:07+00:00"
+  "evidence_dir": "runs/verify-20260828-095852-5265",
+  "started_at": "2026-08-28T09:58:53+00:00",
+  "finished_at": "2026-08-28T09:58:54+00:00"
 }

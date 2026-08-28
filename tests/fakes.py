@@ -50,7 +50,7 @@ POLICY_CONFIG = {
             {"name": "ssn", "regex": r"\b\d{3}-\d{2}-\d{4}\b", "replacement": "***-**-****"},
             {
                 "name": "password_kv",
-                "regex": r"(?i)(password[\"'=:\s]+)[^\s\"'&]+",
+                "regex": r"(?i)(password[\"']?[ \t]*[:=][ \t]*[\"']?)[^\s\"'&]+",
                 "replacement": r"\1[REDACTED]",
             },
         ]
@@ -189,9 +189,16 @@ class FakeSnapshot:
     def __init__(self, url: str, text: str):
         self.url = url
         self._text = text
+        self.elements: list = []
 
     def visible_text(self) -> str:
         return self._text
+
+    def render(self) -> str:
+        return self._text
+
+    def element(self, index: int):
+        raise IndexError(f"no element {index} in a fake snapshot")
 
 
 class FakeSurface:
@@ -232,7 +239,7 @@ class FakeSurface:
     def bind(self, params: dict[str, str]) -> None:
         self.params = dict(params)
 
-    def navigate(self, url: str, actor: str = "replay") -> PolicyDecision:
+    def navigate(self, url: str) -> PolicyDecision:
         decision = self.policy.enforce("navigate", url)
         self.url = url
         self.actions.append(("navigate", url, None))
@@ -260,7 +267,10 @@ class FakeSurface:
         key = target.described_as
         if key not in self.reads:
             raise TargetNotFound(f"no scripted read for {key!r}")
-        return self.reads[key]
+        value = self.reads[key]
+        if isinstance(value, Exception):  # scripted parse/read failure
+            raise value
+        return value
 
     def screenshot(self, path: str) -> str:
         Path(path).write_bytes(b"fake-png")

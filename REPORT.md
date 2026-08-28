@@ -186,10 +186,12 @@ this lease and command seam.
   ship `draft` and carry an explicit approval gate for unattended use.
 - **Secrets**: the model never sees credential values. It types
   `{{secret:name}}` placeholders; the surface resolves them from the
-  environment at act-time, registers the value with the redactor, and every
-  log line, snapshot, and artifact field is scrubbed before touching disk. A
-  schema validator additionally rejects step values that *look* like raw
-  credentials. The artifact JSON of the shipped capability contains the
+  environment at act-time and registers the value with the redactor, and
+  every log line, snapshot, and evidence file is scrubbed before touching
+  disk (JSON is redacted value-by-value, so a match can never corrupt the
+  file's structure). Artifacts are safe by construction rather than by
+  scrubbing: placeholders survive distillation verbatim, and a schema
+  validator rejects step values that *look* like raw credentials. The artifact JSON of the shipped capability contains the
   placeholder, not the password — asserted by a test.
 - **PII**: the demo profile page deliberately displays a (fake) SSN; the
   redaction patterns scrub it from all persisted text evidence, and
@@ -220,6 +222,13 @@ Deliberate, with the seam left clean:
   claim absolute; the escalation path covers the gap with a human instead.
 - **Multi-run stability scoring** — the per-run drift signals exist; the
   aggregation job does not.
+- **Irreversible capabilities via the automated pipeline** — the
+  discover→verify→save gate runs its verification replay unattended, so it
+  refuses irreversible steps by design; recording a state-committing
+  capability (an account opening) would need an attended verification with
+  explicit authorization against a sandbox tenant. The replay-side machinery
+  (risk marking, the approval gate, `--allow-irreversible`, escalation) is
+  built; the attended verification mode is not.
 
 What I'd build next, in order: session reuse, tenant overlay profiles, then
 a second Surface implementation to prove the seam with code rather than

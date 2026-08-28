@@ -144,7 +144,7 @@
     },
     {
       "id": "s4",
-      "intent": "Submit the sign-in form with the entered User ID and password",
+      "intent": "Submit the sign-in form with the entered credentials",
       "action": "click",
       "target": {
         "described_as": "the button \"Sign In\"",
@@ -173,7 +173,7 @@
       "url": null,
       "wait_after": null,
       "checkpoint": {
-        "description": "Screen shows 'Main Menu' after: Submit the sign-in form with the entered User ID and password",
+        "description": "Screen shows 'Main Menu' after: Submit the sign-in form with the entered credentials",
         "condition": {
           "kind": "text_visible",
           "value": "Main Menu",
@@ -278,7 +278,7 @@
     },
     {
       "id": "s7",
-      "intent": "Submit the search to look up member 12345's record",
+      "intent": "Submit the search to find member 12345's record",
       "action": "click",
       "target": {
         "described_as": "the button \"Search\"",
@@ -307,7 +307,7 @@
       "url": null,
       "wait_after": null,
       "checkpoint": {
-        "description": "Screen shows 'Member Profile' after: Submit the search to look up member 12345's record",
+        "description": "Screen shows 'Member Profile' after: Submit the search to find member 12345's record",
         "condition": {
           "kind": "text_visible",
           "value": "Member Profile",
@@ -482,13 +482,13 @@
     ]
   },
   "review": {
-    "status": "approved",
-    "notes": "Reviewed locator stacks, checkpoints, detectors, and risk markings after verified discovery"
+    "status": "draft",
+    "notes": "Auto-distilled; review before approving for unattended replay"
   },
   "provenance": {
-    "discovery_run_id": "discovery-20260827-195038-c446",
+    "discovery_run_id": "discovery-20260828-095824-12a2",
     "discovered_by": "claude-cli:sonnet",
-    "recorded_at": "2026-08-27T19:51:06+00:00",
-    "evidence": "runs/discovery-20260827-195038-c446"
+    "recorded_at": "2026-08-28T09:58:52+00:00",
+    "evidence": "runs/discovery-20260828-095824-12a2"
   }
 }

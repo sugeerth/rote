@@ -1,7 +1,7 @@
 {
   "intervention": "iv1",
-  "reason": "model reported stuck",
+  "reason": "Login fails with 'Invalid credentials' even after re-entering User ID 'teller' and the provided {{secret:teller_password}} a second time with identical results. I was not given a confirmed username \u2014 'teller' was a guess \u2014 and retrying the same credentials a third time risks an account lockout without new information. Need a human to confirm the correct teller User ID (and verify the password secret is correct) before continuing.",
   "step_id": null,
   "goal": "Look up member 12345 and read their current savings balance",
-  "raised_at": "2026-08-27T08:57:41+00:00"
+  "raised_at": "2026-08-28T10:00:41+00:00"
 }

@@ -32,6 +32,34 @@ from .surface import Element, Snapshot, WebSurface
 ACT_TOOLS = {"navigate", "click", "fill", "select", "press"}
 
 
+def _feedback(messages: list[dict], text: str) -> None:
+    """Append feedback without breaking tool-use transcripts.
+
+    The Messages API requires a pending ``tool_use`` to be answered by a
+    ``tool_result`` in the next user turn and rejects consecutive same-role
+    messages, so feedback pairs with the pending call when there is one and
+    merges into a trailing user turn when there is not.
+    """
+    if messages and messages[-1]["role"] == "user":
+        prev = messages[-1]["content"]
+        if isinstance(prev, list):
+            prev.append({"type": "text", "text": text})
+        else:
+            messages[-1]["content"] = f"{prev}\n\n{text}"
+        return
+    if messages and messages[-1]["role"] == "assistant":
+        raw = messages[-1]["content"]
+        tool_id = next(
+            (b["id"] for b in raw if isinstance(b, dict) and b.get("type") == "tool_use"), None
+        ) if isinstance(raw, list) else None
+        if tool_id:
+            messages.append({"role": "user", "content": [
+                {"type": "tool_result", "tool_use_id": tool_id, "content": text}
+            ]})
+            return
+    messages.append({"role": "user", "content": text})
+
+
 @dataclass
 class TraceStep:
     """One successful action, with everything the distiller needs."""
@@ -174,7 +202,12 @@ def discover(
         )
 
     log.event("discovery_started", goal=goal, entry_url=entry_url, provider=llm.name)
-    surface.navigate(entry_url, actor="model")
+    for name in secrets:
+        # Fail fast if a secret is unresolvable, and register its value with
+        # the redactor now - before any screen render or operator-typed text
+        # could otherwise persist it unmasked.
+        surface.policy.resolve_secret(name)
+    surface.navigate(entry_url)
     log.screenshot(surface, "start")
 
     for step_no in range(1, max_steps + 1):
@@ -192,16 +225,7 @@ def discover(
         log.save_text(f"snapshot-{step_no:02d}.txt", observation)
         note = "" if step_no == 1 else "Action performed. "
         obs_text = f"{note}Current screen:\n{observation}"
-        if messages and messages[-1]["role"] == "assistant":
-            # pair the observation with the pending tool call when the provider speaks tool-use
-            last_raw = messages[-1]["content"]
-            tool_id = next((b["id"] for b in last_raw if isinstance(b, dict) and b.get("type") == "tool_use"), None) if isinstance(last_raw, list) else None
-            if tool_id:
-                messages.append({"role": "user", "content": [{"type": "tool_result", "tool_use_id": tool_id, "content": obs_text}]})
-            else:
-                messages.append({"role": "user", "content": obs_text})
-        else:
-            messages.append({"role": "user", "content": obs_text})
+        _feedback(messages, obs_text)
 
         decision: Decision = llm.decide(system, messages, _tools(output_names))
         log.event("decision", step=step_no, tool=decision.tool, args=decision.args, provider=decision.provider)
@@ -214,7 +238,7 @@ def discover(
             outputs = {str(k): str(v) for k, v in (decision.args.get("outputs") or {}).items()}
             missing = [n for n in output_names if n not in outputs]
             if missing:
-                messages.append({"role": "user", "content": f"done rejected: missing outputs {missing}. Read them from the screen and call done again."})
+                _feedback(messages, f"done rejected: missing outputs {missing}. Read them from the screen and call done again.")
                 continue
             trace.outputs_seen = outputs
             trace.final_snapshot = snap
@@ -232,7 +256,7 @@ def discover(
                 )), trace
             resolution = hub.intervene(reason=reason, step_id=None, goal=goal)
             if resolution.resumed:
-                messages.append({"role": "user", "content": "A human operator intervened on the live session and performed some actions. Re-observe the screen and continue toward the goal."})
+                _feedback(messages, "A human operator intervened on the live session and performed some actions. Re-observe the screen and continue toward the goal.")
                 continue
             return finish("escalated", FailureDetail(
                 kind="stopping_condition", step_id=None,
@@ -240,20 +264,20 @@ def discover(
             )), trace
 
         if decision.tool not in ACT_TOOLS:
-            messages.append({"role": "user", "content": f"Unknown tool '{decision.tool}'. Use one of the provided tools."})
+            _feedback(messages, f"Unknown tool '{decision.tool}'. Use one of the provided tools.")
             continue
 
         # -- act ------------------------------------------------------------
         url_before = surface.current_url()
         try:
             if decision.tool == "navigate":
-                surface.navigate(decision.args["url"], actor="model")
+                surface.navigate(decision.args["url"])
                 element, value = None, None
                 risk = "safe"
             else:
                 element = snap.element(int(decision.args["element"]))
                 value = decision.args.get("value") or decision.args.get("key")
-                verdict = surface.act_element(decision.tool, element, value, actor="model")
+                verdict = surface.act_element(decision.tool, element, value)
                 risk = verdict.risk
                 if risk == "irreversible":
                     log.event("irreversible_action", step=step_no, control=element.name,
@@ -274,7 +298,7 @@ def discover(
                     )
                     if resolution.resumed:
                         blocked_streak = 0
-                        messages.append({"role": "user", "content": "A human operator intervened on the live session. Re-observe the screen and continue toward the goal."})
+                        _feedback(messages, "A human operator intervened on the live session. Re-observe the screen and continue toward the goal.")
                         continue
                     return finish("escalated", FailureDetail(
                         kind="stopping_condition", step_id=None,
@@ -287,7 +311,7 @@ def discover(
                     expected="a permitted, working action", observed=f"3 consecutive failures; last: {exc}",
                     evidence={"screenshot": shot},
                 )), trace
-            messages.append({"role": "user", "content": f"BLOCKED: {exc}. Choose a different action."})
+            _feedback(messages, f"BLOCKED: {exc}. Choose a different action.")
             continue
 
         reports.append(StepReport(step_id=f"d{step_no}", status="ok", note=f"{decision.tool}: {decision.args.get('why', '')}"))

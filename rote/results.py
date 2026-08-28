@@ -26,6 +26,7 @@ RunStatus = Literal["success", "business_outcome", "hard_failure", "escalated"]
 HardFailureKind = Literal[
     "invalid_args",  # the invocation violated the capability's param contract
     "target_not_found",  # every locator in the stack failed to resolve
+    "extraction_failed",  # an extraction target resolved, but its text was not readable as the declared output type
     "checkpoint_failed",  # acted, but did not reach the expected state (and no detector claimed it)
     "app_error",  # the application itself errored (e.g. HTTP 500 page)
     "policy_violation",  # an action was blocked by the guardrail policy

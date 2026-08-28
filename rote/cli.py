@@ -22,6 +22,7 @@ from .evidence import RunLog
 from .handoff import InterventionHub
 from .llm import AnthropicLLM, ClaudeCLILLM, pick_llm
 from .policy import Policy
+from .results import FailureDetail
 from .replay import ReplayOptions, replay
 from .schema import Capability
 from .surface import WebSurface
@@ -83,6 +84,11 @@ def cmd_discover(args: argparse.Namespace) -> int:
                 )
             except DistillationError as exc:
                 result.status = "hard_failure"
+                result.failure = FailureDetail(
+                    kind="stopping_condition", step_id=None,
+                    expected="a trace distillable into a replayable capability",
+                    observed=str(exc),
+                )
                 print(f"distillation failed: {exc}", file=sys.stderr)
         log.save_json("result.json", result)
         print(result.summary())
